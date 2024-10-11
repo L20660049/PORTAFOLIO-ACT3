@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Meta caracteres y configuración de la vista -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtro de Tabla en Tiempo Real</title>
+    <style>
+        /* Estilos generales del cuerpo */
+        body {
+            font-family: Arial, sans-serif; /* Tipografía utilizada */
+            background-color: #f0f8ff; /* Color de fondo */
+            margin: 0; /* Sin margen */
+            padding: 20px; /* Espacio interior */
+        }
+        /* Estilo del encabezado */
+        h2 {
+            text-align: center; /* Centrar el texto */
+            color: #333; /* Color del texto */
+        }
+        /* Estilo del campo de texto para el filtro */
+        input[type="text"] {
+            width: 100%; /* Ancho completo */
+            padding: 10px; /* Espacio interior */
+            margin-bottom: 20px; /* Margen inferior */
+            border: 2px solid #007BFF; /* Color y grosor del borde */
+            border-radius: 5px; /* Bordes redondeados */
+            font-size: 16px; /* Tamaño de la fuente */
+        }
+        /* Estilo cuando el campo de texto está en foco */
+        input[type="text"]:focus {
+            border-color: #0056b3; /* Color del borde al enfocar */
+            outline: none; /* Sin contorno */
+        }
+        /* Estilo de la tabla */
+        table {
+            width: 100%; /* Ancho completo */
+            border-collapse: collapse; /* Colapsar bordes */
+            margin-top: 20px; /* Margen superior */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra de la tabla */
+        }
+        /* Estilo de las celdas y encabezados */
+        th, td {
+            padding: 12px; /* Espacio interior */
+            text-align: left; /* Alinear texto a la izquierda */
+            border-bottom: 1px solid #ddd; /* Borde inferior */
+        }
+        /* Estilo de los encabezados de la tabla */
+        th {
+            background-color: #007BFF; /* Color de fondo de encabezados */
+            color: white; /* Color del texto de encabezados */
+        }
+        /* Efecto de hover en filas de la tabla */
+        tr:hover {
+            background-color: #f1f1f1; /* Color de fondo al pasar el ratón */
+        }
+        /* Estilo de filas impares */
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9; /* Color de fondo para filas impares */
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Filtro de Tabla</h2>
+    <!-- Campo de entrada para buscar en la tabla -->
+    <input type="text" id="filtro" onkeyup="filtrarTabla()" placeholder="Buscar en la tabla...">
+    
+    <!-- Tabla con los datos -->
+    <table id="miTabla">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Edad</th>
+                <th>País</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Juan Pérez</td>
+                <td>30</td>
+                <td>México</td>
+            </tr>
+            <tr>
+                <td>Ana García</td>
+                <td>25</td>
+                <td>Argentina</td>
+            </tr>
+            <tr>
+                <td>Pedro Sánchez</td>
+                <td>40</td>
+                <td>España</td>
+            </tr>
+            <tr>
+                <td>Sofía López</td>
+                <td>28</td>
+                <td>Colombia</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        // Función para filtrar la tabla según el texto ingresado
+        function filtrarTabla() {
+            // Obtener el valor del input de filtro
+            let input = document.getElementById("filtro");
+            let filtro = input.value.toLowerCase(); // Convertir a minúsculas para comparación
+            // Obtener la tabla y todas las filas
+            let tabla = document.getElementById("miTabla");
+            let filas = tabla.getElementsByTagName("tr"); // Obtener todas las filas de la tabla
+            
+            // Iterar sobre todas las filas del cuerpo de la tabla
+            for (let i = 1; i < filas.length; i++) { // Comenzar desde 1 para omitir el encabezado
+                let fila = filas[i];
+                let celdas = fila.getElementsByTagName("td"); // Obtener todas las celdas en la fila
+                let coincide = false; // Inicializar la variable de coincidencia
+
+                // Verificar si alguna celda en la fila contiene el texto buscado
+                for (let j = 0; j < celdas.length; j++) {
+                    if (celdas[j].innerHTML.toLowerCase().indexOf(filtro) > -1) {
+                        coincide = true; // Si hay coincidencia, actualizar la variable
+                        break; // Salir del bucle
+                    }
+                }
+                // Mostrar u ocultar la fila según si coincide
+                fila.style.display = coincide ? "" : "none"; // Mostrar si coincide, ocultar si no
+            }
+        }
+    </script>
+
+</body>
+</html>
+
